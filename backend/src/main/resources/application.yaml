@@ -1,1 +1,16 @@
-spring.application.name=chatmeapp
+spring:
+  application:
+    name: chat-me-app
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/chatme
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  docker:
+    compose:
+      enabled: true
+      file: docker-compose.yml
