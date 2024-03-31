@@ -14,6 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
+    public enum Types {
+        ADMIN, USER
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -6,6 +6,11 @@ spring:
     url: jdbc:postgresql://localhost:5433/chatme
     username: postgres
     password: postgres
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+      schema: classpath:org/springframework/session/jdbc/schema-postgresql.sql
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,3 +19,8 @@ spring:
     compose:
       enabled: true
       file: docker-compose.yml
+
+#logging:
+#  level:
+#    org.springframework.security.web: TRACE
+#    org.springframework.security.authentication: DEBUG
