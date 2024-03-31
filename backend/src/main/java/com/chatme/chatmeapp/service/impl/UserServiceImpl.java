@@ -33,8 +33,9 @@ class UserServiceImpl implements UserService {
     public void saveUser(UserEntity userEntity) {
         try {
             userRepository.save(userEntity);
+            log.info("User saved successfully: {}", userEntity.getUsername());
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Error occurred while saving user: {}", userEntity.getUsername(), e);
         }
     }
 
@@ -42,8 +43,9 @@ class UserServiceImpl implements UserService {
     public void deleteUserById(Long id) {
         try {
             userRepository.deleteById(id);
+            log.info("User deleted successfully with ID: {}", id);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Error occurred while deleting user with ID: {}", id, e);
         }
     }
 }
