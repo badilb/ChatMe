@@ -8,6 +8,7 @@ import com.chatme.chatmeapp.service.RoleService;
 import com.chatme.chatmeapp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -48,10 +50,11 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
         Authentication authenticationResponse =
                 authenticationManager.authenticate(authenticationRequest);
-        SecurityContext newContext = SecurityContextHolder.createEmptyContext();
-        newContext.setAuthentication(authenticationResponse);
-        SecurityContextHolder.setContext(newContext);
-        contextRepository.saveContext(newContext, request, response);
+        SecurityContext emptyContext = SecurityContextHolder.createEmptyContext();
+        emptyContext.setAuthentication(authenticationResponse);
+        SecurityContextHolder.setContext(emptyContext);
+        contextRepository.saveContext(emptyContext, request, response);
+        log.info("User logged in: {}", loginDTO.getUsername());
     }
 
     @PostMapping("/register")
@@ -65,5 +68,6 @@ public class AuthController {
         userEntity.setRoles(Collections.singletonList(roleService.findByName(Role.Types.USER.name())));
 
         userService.saveUser(userEntity);
+        log.info("User authorized to system: {}", registrationDTO.getUsername());
     }
 }
