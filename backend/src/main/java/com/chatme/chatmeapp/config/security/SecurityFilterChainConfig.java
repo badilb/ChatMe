@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.context.DelegatingSecurityContextRepository;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
@@ -19,7 +20,14 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 public class SecurityFilterChainConfig {
     private final String[] authEndpoints  = {
             "/auth/login",
-            "/auth/register"
+            "/auth/register",
+            "/auth/logout"
+    };
+
+    private final String[] actuatorEndpoints  = {
+            "/metrics",
+            "/actuator",
+            "/actuator/prometheus"
     };
 
     @Bean
@@ -29,6 +37,8 @@ public class SecurityFilterChainConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Disable csrf for a while
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, authEndpoints).permitAll()
+                        .requestMatchers(actuatorEndpoints).access(
+                                new WebExpressionAuthorizationManager("hasIpAddress('localhost')"))
                         .anyRequest().authenticated())
                 .securityContext(context -> context
                             .securityContextRepository(new DelegatingSecurityContextRepository(

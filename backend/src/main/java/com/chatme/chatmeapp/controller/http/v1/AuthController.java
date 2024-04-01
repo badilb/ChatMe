@@ -6,6 +6,7 @@ import com.chatme.chatmeapp.models.entity.Role;
 import com.chatme.chatmeapp.models.entity.UserEntity;
 import com.chatme.chatmeapp.service.RoleService;
 import com.chatme.chatmeapp.service.UserService;
+import io.micrometer.core.annotation.Timed;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -69,5 +70,18 @@ public class AuthController {
 
         userService.saveUser(userEntity);
         log.info("User authorized to system: {}", registrationDTO.getUsername());
+    }
+
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.OK)
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        DeferredSecurityContext deferredContext = contextRepository.loadDeferredContext(request);
+        SecurityContext sessionContext = deferredContext.get();
+        String username = sessionContext.getAuthentication().getName();
+
+        SecurityContext emptyContext = SecurityContextHolder.createEmptyContext();
+        SecurityContextHolder.setContext(emptyContext);
+        contextRepository.saveContext(emptyContext, request, response);
+        log.info("User logged out: {}", username);
     }
 }
