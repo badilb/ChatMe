@@ -6,13 +6,11 @@ import com.chatme.chatmeapp.models.entity.Role;
 import com.chatme.chatmeapp.models.entity.UserEntity;
 import com.chatme.chatmeapp.service.RoleService;
 import com.chatme.chatmeapp.service.UserService;
-import io.micrometer.core.annotation.Timed;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -66,7 +64,7 @@ public class AuthController {
         userEntity.setSurname(registrationDTO.getSurname());
         userEntity.setUsername(registrationDTO.getUsername());
         userEntity.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
-        userEntity.setRoles(Collections.singletonList(roleService.findByName(Role.Types.USER.name())));
+        userEntity.setRoles(Collections.singletonList(roleService.findByName("USER"))); // TODO: change string to enums
 
         userService.saveUser(userEntity);
         log.info("User authorized to system: {}", registrationDTO.getUsername());

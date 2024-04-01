@@ -2,26 +2,21 @@ package com.chatme.chatmeapp.models.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
-    public enum Types {
-        ADMIN, USER
-    }
-
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     @Column(nullable = false)
     private String name;
 

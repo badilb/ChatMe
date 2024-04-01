@@ -1,13 +1,16 @@
 package com.chatme.chatmeapp.models.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity(name = "messages")
@@ -18,18 +21,18 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Column(columnDefinition = "TEXT")
+    private String content;
+
     @ManyToOne
+    @JoinColumn(name = "chat_uuid", referencedColumnName = "chat_uuid")
     private Chat chat;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "user_id")
     private UserEntity sender;
-
-    @ManyToOne
-    @JoinColumn(name = "recipient_id")
-    private UserEntity recipient;
-
-    private String content;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
