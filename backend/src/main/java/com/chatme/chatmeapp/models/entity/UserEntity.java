@@ -1,4 +1,4 @@
-package com.chatme.chatmeapp.models.entity;
+ package com.chatme.chatmeapp.models.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -48,6 +49,9 @@ public class UserEntity {
                     @JoinColumn(name = "role_id", referencedColumnName = "id")
             })
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Chat> chats = new ArrayList<>();
 
     @CreationTimestamp
     private LocalDateTime createdAt;
