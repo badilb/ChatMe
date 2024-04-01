@@ -20,6 +20,14 @@ spring:
 #      enabled: true
 #      file: docker-compose.yml
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+
 #logging:
 #  level:
 #    org.springframework.security.web: TRACE
