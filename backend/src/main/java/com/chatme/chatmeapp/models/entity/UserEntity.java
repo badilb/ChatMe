@@ -43,14 +43,18 @@ public class UserEntity {
     @JoinTable(
             name = "users_roles",
             joinColumns = {
-                    @JoinColumn(name = "user_id", referencedColumnName = "id")
-            },
+                    @JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {
-                    @JoinColumn(name = "role_id", referencedColumnName = "id")
-            })
-    private List<Role> roles;
+                    @JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_chats",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "chat_id", referencedColumnName = "id")})
     private List<Chat> chats = new ArrayList<>();
 
     @CreationTimestamp

@@ -1,20 +1,22 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: chat-me-app
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/chatme
-    username: postgres
-    password: postgres
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   session:
-    store-type: jdbc
+    store-type: ${SESSION_STORE-TYPE}
     jdbc:
       initialize-schema: always
       schema: classpath:org/springframework/session/jdbc/schema-postgresql.sql
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+#    show-sql: true
 #  docker:
 #    compose:
 #      enabled: true
@@ -30,5 +32,6 @@ management:
 
 #logging:
 #  level:
+#    org.hibernate.sql.results: DEBUG
 #    org.springframework.security.web: TRACE
 #    org.springframework.security.authentication: DEBUG
