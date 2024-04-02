@@ -40,4 +40,13 @@ public class ChatServiceImpl implements ChatService {
             return Optional.empty();
         }
     }
+
+    @Override
+    public void deleteByChatUUID(UUID uuid) {
+        try {
+            chatRepository.deleteByChatUUID(uuid);
+        } catch (Exception exception){
+            log.error(exception.getMessage());
+        }
+    }
 }

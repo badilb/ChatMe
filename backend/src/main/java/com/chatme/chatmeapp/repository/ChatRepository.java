@@ -17,4 +17,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
             "FROM com.chatme.chatmeapp.models.entity.Chat c " +
             "WHERE c.chatUUID = :uuid")
     Optional<ChatDTO> findDTOByChatUUID(UUID uuid);
+
+    void deleteByChatUUID(UUID uuid);
 }

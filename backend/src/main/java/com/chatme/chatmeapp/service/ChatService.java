@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface ChatService {
     Optional<Chat> findChatByChatUUID(UUID uuid);
     Optional<ChatDTO> findDTOByChatUUID(UUID uuid);
+    void deleteByChatUUID(UUID uuid);
 }

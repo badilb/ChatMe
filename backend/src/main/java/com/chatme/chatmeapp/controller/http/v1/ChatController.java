@@ -30,4 +30,15 @@ public class ChatController {
                 .status(HttpStatus.OK)
                 .body(chatDTO.get());
     }
+
+//    localhost:8080/api/chats/294943-53252387--523752389-53752389
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<String> deleteByChatUUID(@PathVariable(value = "uuid") UUID uuid) {
+        chatService.deleteByChatUUID(uuid);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body("Chat was successfully deleted");
+    }
+
 }
