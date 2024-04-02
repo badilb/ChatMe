@@ -2,7 +2,6 @@ package com.chatme.chatmeapp.controller.http.v1;
 
 import com.chatme.chatmeapp.models.dto.LoginDTO;
 import com.chatme.chatmeapp.models.dto.RegistrationDTO;
-import com.chatme.chatmeapp.models.entity.Role;
 import com.chatme.chatmeapp.models.entity.UserEntity;
 import com.chatme.chatmeapp.service.RoleService;
 import com.chatme.chatmeapp.service.UserService;
@@ -26,7 +25,7 @@ import java.util.Collections;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     private final UserService userService;
     private final RoleService roleService;

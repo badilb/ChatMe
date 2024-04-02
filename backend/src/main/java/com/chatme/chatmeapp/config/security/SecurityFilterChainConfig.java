@@ -19,9 +19,13 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 @EnableMethodSecurity
 public class SecurityFilterChainConfig {
     private final String[] authEndpoints  = {
-            "/auth/login",
-            "/auth/register",
-            "/auth/logout"
+            "/api/v1/auth/login",
+            "/api/v1/auth/register",
+            "/api/v1/auth/logout"
+    };
+
+    private final String[] chatEndpoints = {
+            "/api/v1/chats/{uuid}"
     };
 
     private final String[] actuatorEndpoints  = {
@@ -37,6 +41,7 @@ public class SecurityFilterChainConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Disable csrf for a while
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, authEndpoints).permitAll()
+                        .requestMatchers(chatEndpoints).hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers(actuatorEndpoints).access(
                                 new WebExpressionAuthorizationManager("hasIpAddress('localhost')"))
                         .anyRequest().authenticated())
