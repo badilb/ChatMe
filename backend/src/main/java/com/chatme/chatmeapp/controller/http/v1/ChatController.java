@@ -1,7 +1,11 @@
 package com.chatme.chatmeapp.controller.http.v1;
 
 import com.chatme.chatmeapp.models.dto.ChatDTO;
+import com.chatme.chatmeapp.models.entity.Chat;
+import com.chatme.chatmeapp.models.entity.UserEntity;
 import com.chatme.chatmeapp.service.ChatService;
+import com.chatme.chatmeapp.service.UserService;
+import com.chatme.chatmeapp.utils.SessionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,4 +45,21 @@ public class ChatController {
                 .body("Chat was successfully deleted");
     }
 
+    @PostMapping
+    public ResponseEntity<String> createChatDTOByUUID(@RequestParam(value = "memberUsername") String memberUsername) {
+        String currentSessionUsername = SessionUtil.getSessionUsername();
+
+        assert currentSessionUsername != null;
+        if (currentSessionUsername.equals(memberUsername)) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("You can't create chat for yourself");
+        }
+
+        chatService.createChat(currentSessionUsername, memberUsername);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body("OK!");
+    }
 }
