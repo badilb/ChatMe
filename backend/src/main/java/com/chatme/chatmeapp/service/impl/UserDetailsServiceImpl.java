@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,21 +27,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(username);
-        if (optionalUserEntity.isPresent()) {
-            UserEntity user = optionalUserEntity.get();
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
 
-            List<GrantedAuthority> authorities = user.getRoles().stream()
-                    .map(role -> new SimpleGrantedAuthority(role.getName()))
-                    .collect(Collectors.toList());
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
 
-            return new User(
-                    user.getUsername(),
-                    user.getPassword(),
-                    authorities
-            );
-        } else {
-            throw new UsernameNotFoundException("User not found!");
-        }
+        return new User(
+                user.getUsername(),
+                user.getPassword(),
+                authorities
+        );
     }
 }
