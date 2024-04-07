@@ -7,16 +7,15 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
     @Column(nullable = false)
     private String name;
 

@@ -1,22 +1,20 @@
 package com.chatme.chatmeapp.models.dto;
 
 import com.chatme.chatmeapp.models.entity.Chat;
-import com.chatme.chatmeapp.models.entity.Message;
 import com.chatme.chatmeapp.models.entity.UserEntity;
-import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
-public class ChatDTO {
+public class ChatDTO implements Serializable {
     private Long id;
     private UUID chatUUID;
     private List<MessageDTO> messages;
-    private List<String> users = new ArrayList<>();
+    private List<String> users;
 
     public ChatDTO(Chat chat) {
         this.id = chat.getId();

@@ -13,6 +13,14 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 
+  redis:
+    container_name: redis-cache-storage
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.3.3
     container_name: elasticsearch_springboot
@@ -95,6 +103,7 @@ networks:
 
 volumes:
   psql_data:
+  redis_data:
   elasticsearch_data:
     driver: local
   grafana_data:

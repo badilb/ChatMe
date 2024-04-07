@@ -1,13 +1,7 @@
 package com.chatme.chatmeapp.models.dto;
 
-import com.chatme.chatmeapp.models.entity.Chat;
 import com.chatme.chatmeapp.models.entity.Message;
-import com.chatme.chatmeapp.models.entity.UserEntity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 

@@ -1,8 +1,10 @@
 package com.chatme.chatmeapp.controller.http.v1;
 
+import com.chatme.chatmeapp.exception.UsernameTakenException;
 import com.chatme.chatmeapp.models.dto.LoginDTO;
 import com.chatme.chatmeapp.models.dto.RegistrationDTO;
 import com.chatme.chatmeapp.models.entity.UserEntity;
+import com.chatme.chatmeapp.models.enums.RoleType;
 import com.chatme.chatmeapp.service.RoleService;
 import com.chatme.chatmeapp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,12 +60,18 @@ public class AuthController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void register(@RequestBody RegistrationDTO registrationDTO) {
+        // Check if the username exists in the database or not
+        String username = registrationDTO.getUsername();
+        if (userService.findByUsername(username) != null) {
+            throw new UsernameTakenException(username);
+        }
+
         UserEntity userEntity = new UserEntity();
         userEntity.setName(registrationDTO.getName());
         userEntity.setSurname(registrationDTO.getSurname());
         userEntity.setUsername(registrationDTO.getUsername());
         userEntity.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
-        userEntity.setRoles(Collections.singletonList(roleService.findByName("USER"))); // TODO: change string to enums
+        userEntity.setRoles(Collections.singletonList(roleService.findByName(RoleType.USER)));
 
         userService.saveUser(userEntity);
         log.info("User authorized to system: {}", registrationDTO.getUsername());
