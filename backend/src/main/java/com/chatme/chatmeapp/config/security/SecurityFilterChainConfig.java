@@ -1,5 +1,6 @@
 package com.chatme.chatmeapp.config.security;
 
+import com.chatme.chatmeapp.models.enums.RoleType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,6 +28,11 @@ public class SecurityFilterChainConfig {
             "/metrics",
             "/actuator",
             "/actuator/prometheus"
+    };
+
+    private final String[] openApiEndpoints = {
+            "/v3/api-docs",
+            "/swagger-ui/**"
     };
 
     @Bean

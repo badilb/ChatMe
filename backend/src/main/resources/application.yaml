@@ -32,7 +32,7 @@ management:
 
 #logging:
 #  level:
-#    org.springframework.security.web.csrf: TRACE
 #    org.springframework.security.web: TRACE
+#    org.springframework.security.web.csrf: TRACE
 #    org.springframework.security.authentication: DEBUG
 #    org.hibernate.sql.results: DEBUG
