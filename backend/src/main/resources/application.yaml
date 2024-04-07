@@ -1,0 +1,38 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  application:
+    name: chat-me-app
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+      schema: classpath:org/springframework/session/jdbc/schema-postgresql.sql
+  jpa:
+    hibernate:
+      ddl-auto: update
+#    show-sql: true
+#  docker:
+#    compose:
+#      enabled: true
+#      file: docker-compose.yml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+
+#logging:
+#  level:
+#    org.springframework.security.web: TRACE
+#    org.springframework.security.web.csrf: TRACE
+#    org.springframework.security.authentication: DEBUG
+#    org.hibernate.sql.results: DEBUG
